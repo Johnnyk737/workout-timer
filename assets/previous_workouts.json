@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "display": "1 set 5 rounds, 30 sec each",
+    "date": "2020-01-01"
+  },
+  {
+    "id": 2,
+    "display": "2 sets 3 rounds, 40 sec each",
+    "date": "2020-02-20"
+  },
+  {
+    "id": 3,
+    "display": "3 set 3 rounds, 30 sec each",
+    "date": "2020-03-11"
+  },
+  {
+    "id": 4,
+    "display": "2 set 6 rounds, 30 sec each",
+    "date": "2020-04-09"
+  },
+  {
+    "id": 5,
+    "display": "4 set 6 rounds, 30 sec each",
+    "date": "2020-05-30"
+  }
+]

@@ -1,0 +1,14 @@
+Functionality
+TODO: Build set work time and rest time
+TODO: Build round feature (# of work/rest time)
+TODO: Build sets feature (# of rounds)
+TODO: Make start and stop and reset buttons functional
+TODO: Have previously used time sets
+TODO: Add sounds for events (Time done, round done, 3 seconds left in work time, 3 seconds left in rest time, etc.)
+TODO: Add option for assorted rounds in sets (40sec on/20sec off, then 30sec/on 10sec off)
+TODO: Integrate Spotify (Let it play on top of the app so both sounds play. When countdown sounds are being made, Spotify should just lower the volume of whatever is playing.)
+
+Layout
+TODO: Build landing page
+TODO: Build Set Workout Time (accessible from landing page)
+TODO: Allow customization of digit color
