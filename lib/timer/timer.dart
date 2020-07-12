@@ -5,6 +5,11 @@
 import 'package:flutter/material.dart';
 
 class Timer extends StatefulWidget {
+  Timer({Key key, context, this.workout});
+
+  // This will be a map of the settings.
+  // Should include sets, rounds, worktime and resttime data
+  final Map workout; 
   // It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -44,11 +49,15 @@ class _TimerState extends State<Timer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: Center(
-        child: Text(countDown.toString().padLeft(2, '0'), 
-          style: TextStyle(fontSize: 64),)
+    return new Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: 100,
+          child: Center(
+            child: Text(countDown.toString().padLeft(2, '0'), 
+              style: TextStyle(fontSize: 64),)
+          )
+        )
       )
     );
   }

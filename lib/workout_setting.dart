@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_timer/custom/custom_time_picker.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:workout_timer/timer/timer.dart';
 
 class WorkoutSetting extends StatefulWidget {
   WorkoutSetting({Key key, context, this.workout});
@@ -9,7 +9,6 @@ class WorkoutSetting extends StatefulWidget {
 
   @override
   _WorkoutSettingState createState() => _WorkoutSettingState();
-
 }
 
 class _WorkoutSettingState extends State<WorkoutSetting> {
@@ -119,6 +118,14 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     // print(restSeconds.toString());
   }
 
+  bool _areSettingsValid() {
+    if (sets > 0 && rounds > 0 && 
+        (workSeconds.minutes > 0 || workSeconds.seconds > 0)) {
+      return true;
+    }
+    return false;
+  }
+
   void dispose() {
     // _setsTextEditController.clear();
     // _roundsTextEditController.clear();
@@ -171,9 +178,9 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: "Subtract Set",
                               size: 48.0,),
                             onTap: () {
-                              print("tapped subtract set");
+                              // print("tapped subtract set");
                               _subtractSet();
-                              print(sets);
+                              // print(sets);
                             },
                           )
                         ),
@@ -199,9 +206,9 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: "Add Set",
                               size: 48.0,),
                             onTap: () {
-                              print("tapped add set");
+                              // print("tapped add set");
                               _addSet();
-                              print(sets);
+                              // print(sets);
                             },
                           )
                         ),
@@ -236,9 +243,9 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: "Subtract Round",
                               size: 48.0,),
                             onTap: () {
-                              print("tapped subtract round");
+                              // print("tapped subtract round");
                               _subtractRound();
-                              print(rounds);
+                              // print(rounds);
                             },
                           )
                         ),
@@ -273,9 +280,9 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: "Add Round",
                               size: 48.0,),
                             onTap: () {
-                              print("tapped add round");
+                              // print("tapped add round");
                               _addRound();
-                              print(rounds);
+                              // print(rounds);
                             },
                           )
                         ),
@@ -359,9 +366,12 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               child: FlatButton(
                 color: Colors.blueAccent,
                 textColor: Colors.white,
+                disabledColor: Colors.blue[100],
+                disabledTextColor: Colors.white,
                 child: Text("Start"),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                onPressed: () {},
+                onPressed: _areSettingsValid() ? () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Timer(context: context))) : null
               )
             )
           ],
