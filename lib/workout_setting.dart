@@ -32,39 +32,9 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     // _roundsTextEditController.addListener(_roundsControllerState);
   }
 
-  // void _setsControllerState() {
-  //   print("sets: ${_setsTextEditController.text}");
-    
-  //   int _intSets = 0;
-  //   if (_setsTextEditController.text.isNotEmpty) {
-  //     try {
-  //       _intSets = int.parse(_setsTextEditController.text);
-  //       setState(() {
-  //         sets = _intSets;
-  //       });
-  //     } catch(error) {
-  //       print(error);
-  //       _setsTextEditController.text = '';
-  //     }
-  //   }
-  // }
-  
-  // void _roundsControllerState() {
-  //   print("rounds: ${_roundsTextEditController.text}");
-
-  //   int _intRounds = 0;
-  //   if (_roundsTextEditController.text.isNotEmpty) {
-  //     try {
-  //       _intRounds = int.parse(_roundsTextEditController.text);
-  //       setState(() {
-  //         rounds = _intRounds;
-  //       });
-  //     } catch(error) {
-  //       print(error);
-  //       _roundsTextEditController.text = '';
-  //     }
-  //   }
-  // }
+  Map buildSettingsObj() {
+    return {};
+  }
 
   void _addSet() {
     // TODO: set max
