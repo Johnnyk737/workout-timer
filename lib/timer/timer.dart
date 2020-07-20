@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:workout_timer/workout_setting.dart';
+
 /*
   Class to handle the timer display and functionality
 */
-
-import 'package:flutter/material.dart';
-
 class Timer extends StatefulWidget {
   Timer({Key key, context, this.workout});
 
@@ -20,10 +20,11 @@ class Timer extends StatefulWidget {
   // always marked "final".
   
   @override
-  _TimerState createState() => new _TimerState();
+  _TimerState createState() => new _TimerState(this.workout);
 }
 
 class _TimerState extends State<Timer> {
+  Map workout;
   int totalWorkTime = 0;
   int secondsOffset = 0;
   int minutesOffset = 0;
@@ -31,12 +32,22 @@ class _TimerState extends State<Timer> {
   String seconds = '';
   String minutes = '';
 
+  _TimerState(this.workout);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    seconds = this.workout["workTime"]["seconds"].toString();
+    minutes = this.workout["workTime"]["minutes"].toString();
+  }
+
 
   void startCountdown() async {
     // TODO: Need to make sure that the start button isn't pressed more than once
     // or make it so that if the start button is pressed after it's running, don't
     // run another time since this function is async.
-    for (var i = totalWorkTime; i >= 0; i--) {
+    for (var i = _getTotalWorkTime(); i >= 0; i--) {
       // need to wait 1 second before continuing
       secondsOffset = totalWorkTime % 60;
       setState(() {
@@ -47,17 +58,65 @@ class _TimerState extends State<Timer> {
     }
   }
 
+  int _getTotalWorkTime() {
+    return (this.workout["workTime"]["minutes"] * 60) + this.workout["workTime"]["seconds"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: SafeArea(
-        child: Container(
-          height: 100,
-          child: Center(
-            child: Text(countDown.toString().padLeft(2, '0'), 
-              style: TextStyle(fontSize: 64),)
+        child: Center(
+          child: Container(
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("${minutes.padLeft(2, '0')}:${seconds.padLeft(2, '0')}", 
+                  style: TextStyle(fontSize: 64),
+                )
+              ],
+            )
           )
         )
+      ),
+      bottomNavigationBar: new Container(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              // flex: 2,
+              margin: EdgeInsets.all(10.0),
+              width: 175.0,
+              height: 50.0,
+              child: FlatButton(
+                color: Colors.black26,
+                child: Text("Back"),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                onPressed: () {
+                  Navigator.pop(context);
+                }
+              )
+            ),
+            Container(
+              // flex: 2, 
+              // padding: EdgeInsets.all(10.0),
+              margin: EdgeInsets.all(10.0),
+              width: 175.0,
+              height: 50.0,
+              child: FlatButton(
+                color: Colors.blueAccent,
+                textColor: Colors.white,
+                disabledColor: Colors.blue[100],
+                disabledTextColor: Colors.white,
+                child: Text("Start"),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                onPressed: null
+              )
+            )
+          ],
+        ),
       )
     );
   }

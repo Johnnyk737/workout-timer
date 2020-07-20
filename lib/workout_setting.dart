@@ -8,32 +8,37 @@ class WorkoutSetting extends StatefulWidget {
   final Map workout; 
 
   @override
-  _WorkoutSettingState createState() => _WorkoutSettingState();
+  _WorkoutSettingState createState() => _WorkoutSettingState(this.workout);
 }
 
 class _WorkoutSettingState extends State<WorkoutSetting> {
-  // TextEditingController _setsTextEditController;
-  // TextEditingController _roundsTextEditController;
+
+  _WorkoutSettingState(this.workout);
   int sets;
   int rounds;
-  MinutesSeconds workSeconds;
-  MinutesSeconds restSeconds;
+  MinutesSeconds workTime;
+  MinutesSeconds restTime;
+  Map workout;
 
   void initState() {
     super.initState();
-    sets = 0;
-    rounds = 0;
-    workSeconds = MinutesSeconds();
-    restSeconds = MinutesSeconds();
-    // _setsTextEditController = TextEditingController();
-    // _roundsTextEditController = TextEditingController();
-
-    // _setsTextEditController.addListener(_setsControllerState);
-    // _roundsTextEditController.addListener(_roundsControllerState);
+    sets = workout != null ? workout["sets"] : 0;
+    rounds = workout != null ? workout["rounds"] : 0;
+    workTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout["workTime"])) : MinutesSeconds();
+    restTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout["restTime"])) : MinutesSeconds();
   }
 
-  Map buildSettingsObj() {
-    return {};
+  // From a number of seconds, get minutes and remaining seconds
+  // Returns array of minutes and seconds
+  // ex. seconds = 61, return [1,1]
+  List<int> _getMinutesSeconds(int seconds) {
+    int minutes = (seconds / 60).floor();
+    int remainder = (seconds % 60);
+    return [minutes, remainder];
+  }
+
+  Map _buildSettingsObj() {
+    return ({sets: sets, rounds: rounds, workTime: workTime, restTime: restTime});
   }
 
   void _addSet() {
@@ -66,41 +71,29 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     }
   }
 
-  void _setWorkSeconds(List workTime) {
-    // print(workTime.toString());
-
+  void _setWorkSeconds(List workTimeList) {
     setState(() {
-      // workSeconds = MinutesSeconds(workTime[0], workTime[1]);
-      workSeconds.minutes = workTime[0];
-      workSeconds.seconds = workTime[1];
+      workTime.minutes = workTimeList[0];
+      workTime.seconds = workTimeList[1];
     });
-    // print(workSeconds.toString());
   }
 
-  void _setRestSeconds(List restTime) {
-    // print(restTime.toString());
-
+  void _setRestSeconds(List restTimeList) {
     setState(() {
-      // restSeconds = MinutesSeconds(restTime[0], restTime[1]);
-      restSeconds.minutes = restTime[0];
-      restSeconds.seconds = restTime[1];
+      restTime.minutes = restTimeList[0];
+      restTime.seconds = restTimeList[1];
     });
-    // print(restSeconds.toString());
   }
 
   bool _areSettingsValid() {
     if (sets > 0 && rounds > 0 && 
-        (workSeconds.minutes > 0 || workSeconds.seconds > 0)) {
+        (workTime.minutes > 0 || workTime.seconds > 0)) {
       return true;
     }
     return false;
   }
 
   void dispose() {
-    // _setsTextEditController.clear();
-    // _roundsTextEditController.clear();
-    // _setsTextEditController.dispose();
-    // _roundsTextEditController.dispose();
     super.dispose();
   }
 
@@ -275,12 +268,12 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 Container(
                   padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
                   child: GestureDetector(
-                    child: Text(workSeconds.build(),
+                    child: Text(workTime.build(),
                       style: TextStyle(
                         fontSize: 46.0
                       ),
                     ),
-                    onTap: () => showPickerNumber(context, workSeconds, _setWorkSeconds)
+                    onTap: () => showPickerNumber(context, workTime, _setWorkSeconds)
                   )
                 ),
               ],
@@ -295,12 +288,12 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 Container(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: GestureDetector(
-                    child: Text(restSeconds.build(),
+                    child: Text(restTime.build(),
                       style: TextStyle(
                         fontSize: 46.0
                       ),
                     ),
-                    onTap: () => showPickerNumber(context, restSeconds, _setRestSeconds)
+                    onTap: () => showPickerNumber(context, restTime, _setRestSeconds)
                   )
                 ),
               ],
@@ -341,7 +334,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 child: Text("Start"),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: _areSettingsValid() ? () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Timer(context: context))) : null
+                  MaterialPageRoute(builder: (context) => Timer(context: context, workout: _buildSettingsObj()))) : null
               )
             )
           ],
@@ -405,15 +398,20 @@ class MinutesSeconds {
     this.minutes = minutes;
     this.seconds = seconds;
   }
+  
+  MinutesSeconds.asList(List time) {
+    this.minutes = time[0];
+    this.seconds = time[1];
+  }
 
   @override
   String toString() {
     return "minutes: ${this.minutes}, seconds: ${this.seconds}";
   }
 
-    String digits(int index, int pad) {
-      return '$index'.padLeft(pad, '0');
-    }
+  String digits(int index, int pad) {
+    return '$index'.padLeft(pad, '0');
+  }
 
   String build() {
     String minutes = this.digits(this.minutes, 2);

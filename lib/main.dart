@@ -244,15 +244,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // I would like to have the container and divider return for each loop of the map
       // so it looks like Column(container, divider, container, divider, etc)
       new Column(
-
         children: <Widget>[
           Container(
-            // decoration: const BoxDecoration(
-            //   border: Border(
-            //     // top: BorderSide(width: 1.0, color: Colors.black),
-            //     bottom: BorderSide(width: 1.0, color: Colors.black),
-            //   ),
-            // ),
             child: GestureDetector(
               child: Padding(
                 padding: EdgeInsets.all(10.0),
