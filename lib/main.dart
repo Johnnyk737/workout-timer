@@ -6,6 +6,8 @@ import 'package:workout_timer/timer/timer.dart';
 import 'package:workout_timer/workout_setting.dart';
 import 'package:flutter/services.dart' show rootBundle, SystemChannels;
 
+import 'db/db_helper.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -60,11 +62,15 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map> _prevWorkouts = [];
   List<Map> _presets = [];
 
+  // DbHelper db = DbHelper();
+  // var dbFuture = db.initializeDb();
+
   @override
   void initState() {
     super.initState();
     loadTestData();
     loadPresets();
+
   }
 
   void _incrementCounter() {
