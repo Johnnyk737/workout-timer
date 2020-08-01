@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:workout_timer/timer/timer.dart';
 import 'package:workout_timer/workout_setting.dart';
 import 'package:flutter/services.dart' show rootBundle, SystemChannels;
 
-import 'db/db_helper.dart';
+// import 'db/db_helper.dart';
 
 void main() {
   runApp(MyApp());
