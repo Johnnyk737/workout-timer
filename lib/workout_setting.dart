@@ -5,7 +5,7 @@ import 'package:workout_timer/timer/timer.dart';
 class WorkoutSetting extends StatefulWidget {
   WorkoutSetting({Key key, context, this.workout});
 
-  final Map workout; 
+  final Map<String, dynamic> workout; 
 
   @override
   _WorkoutSettingState createState() => _WorkoutSettingState(this.workout);
@@ -18,27 +18,28 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
   int rounds;
   MinutesSeconds workTime;
   MinutesSeconds restTime;
-  Map workout;
+  Map<String, dynamic> workout;
 
+  @override
   void initState() {
     super.initState();
-    sets = workout != null ? workout["sets"] : 0;
-    rounds = workout != null ? workout["rounds"] : 0;
-    workTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout["workTime"])) : MinutesSeconds();
-    restTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout["restTime"])) : MinutesSeconds();
+    sets = (workout != null ? workout['sets'] : 0) as int;
+    rounds = (workout != null ? workout['rounds'] : 0) as int;
+    workTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout['workTime'] as int)) : MinutesSeconds();
+    restTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout['restTime'] as int)) : MinutesSeconds();
   }
 
   // From a number of seconds, get minutes and remaining seconds
   // Returns array of minutes and seconds
   // ex. seconds = 61, return [1,1]
   List<int> _getMinutesSeconds(int seconds) {
-    int minutes = (seconds / 60).floor();
-    int remainder = (seconds % 60);
+    var minutes = (seconds / 60).floor();
+    var remainder = (seconds % 60);
     return [minutes, remainder];
   }
 
-  Map _buildSettingsObj() {
-    return ({sets: sets, rounds: rounds, workTime: workTime, restTime: restTime});
+  Map<String, dynamic> _buildSettingsObj() {
+    return ({'sets': sets, 'rounds': rounds, 'workTime': workTime, 'restTime': restTime});
   }
 
   void _addSet() {
@@ -71,14 +72,14 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     }
   }
 
-  void _setWorkSeconds(List workTimeList) {
+  void _setWorkSeconds(List<int> workTimeList) {
     setState(() {
       workTime.minutes = workTimeList[0];
       workTime.seconds = workTimeList[1];
     });
   }
 
-  void _setRestSeconds(List restTimeList) {
+  void _setRestSeconds(List<int> restTimeList) {
     setState(() {
       restTime.minutes = restTimeList[0];
       restTime.seconds = restTimeList[1];
@@ -93,6 +94,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     return false;
   }
 
+  @override
   void dispose() {
     super.dispose();
   }
@@ -109,7 +111,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               children: <Widget>[
                 Container(
                   height: 100.0,
-                  child: Text("Workout Setting",
+                  child: Text('Workout Setting',
                     style: TextStyle(
                       fontSize: 36.0
                     ),
@@ -121,7 +123,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               children: <Widget>[
                 Container(
                   // color: Colors.yellowAccent,
-                  child: Text("Sets",
+                  child: Text('Sets',
                     style: TextStyle(
                       fontSize: 20.0
                     ),
@@ -138,10 +140,10 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                           width: 75.0,
                           child: GestureDetector(
                             child: Icon(Icons.remove_circle_outline,
-                              semanticLabel: "Subtract Set",
+                              semanticLabel: 'Subtract Set',
                               size: 48.0,),
                             onTap: () {
-                              // print("tapped subtract set");
+                              // print('tapped subtract set');
                               _subtractSet();
                               // print(sets);
                             },
@@ -166,10 +168,10 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                           width: 75.0,
                           child: GestureDetector(
                             child: Icon(Icons.add_circle_outline,
-                              semanticLabel: "Add Set",
+                              semanticLabel: 'Add Set',
                               size: 48.0,),
                             onTap: () {
-                              // print("tapped add set");
+                              // print('tapped add set');
                               _addSet();
                               // print(sets);
                             },
@@ -186,7 +188,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 Container(
                   // color: Colors.yellowAccent,
                   padding: EdgeInsets.only(top: 10.0),
-                  child: Text("Rounds",
+                  child: Text('Rounds',
                     style: TextStyle(
                       fontSize: 20.0
                     ),
@@ -203,10 +205,10 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                           width: 75.0,
                           child: GestureDetector(
                             child: Icon(Icons.remove_circle_outline,
-                              semanticLabel: "Subtract Round",
+                              semanticLabel: 'Subtract Round',
                               size: 48.0,),
                             onTap: () {
-                              // print("tapped subtract round");
+                              // print('tapped subtract round');
                               _subtractRound();
                               // print(rounds);
                             },
@@ -240,10 +242,10 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                           width: 75.0,
                           child: GestureDetector(
                             child: Icon(Icons.add_circle_outline,
-                              semanticLabel: "Add Round",
+                              semanticLabel: 'Add Round',
                               size: 48.0,),
                             onTap: () {
-                              // print("tapped add round");
+                              // print('tapped add round');
                               _addRound();
                               // print(rounds);
                             },
@@ -259,7 +261,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(top: 10.0),
-                  child: Text("Work Time",
+                  child: Text('Work Time',
                     style: TextStyle(
                       fontSize: 20.0
                     ),
@@ -280,7 +282,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
             ),
             Column(
               children: <Widget>[
-                Text("Rest Time",
+                Text('Rest Time',
                   style: TextStyle(
                     fontSize: 20.0
                   ),
@@ -301,7 +303,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
           ]
         )
       ),
-      bottomNavigationBar: new Container(
+      bottomNavigationBar: Container(
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -313,7 +315,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               height: 50.0,
               child: FlatButton(
                 color: Colors.black26,
-                child: Text("Back"),
+                child: Text('Back'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: () {
                   Navigator.pop(context);
@@ -331,7 +333,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 textColor: Colors.white,
                 disabledColor: Colors.blue[100],
                 disabledTextColor: Colors.white,
-                child: Text("Start"),
+                child: Text('Start'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: _areSettingsValid() ? () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Timer(context: context, workout: _buildSettingsObj()))) : null
@@ -344,43 +346,43 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
   }
 
   void showPickerNumber(BuildContext context, MinutesSeconds currTime, setter) {
-    new Picker(
-        looping: true,
-        adapter: NumberPickerAdapter(data: [
-          NumberPickerColumn(
-            initValue: currTime.minutes,
-            begin: 0, 
-            end: 59,
-            onFormatValue: (v) {
-              return v < 10 ? "0$v" : "$v";
-            }
-          ),
-          NumberPickerColumn(
-            initValue: currTime.seconds,
-            begin: 0, 
-            end: 59,
-            onFormatValue: (v) {
-              return v < 10 ? "0$v" : "$v";
-            }
-          ),
-        ]),
-        delimiter: [
-          PickerDelimiter(child: Container(
-            width: 30.0,
-            alignment: Alignment.center,
-            child: Text(':',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold
-              ),
+    Picker(
+      looping: true,
+      adapter: NumberPickerAdapter(data: [
+        NumberPickerColumn(
+          initValue: currTime.minutes,
+          begin: 0, 
+          end: 59,
+          onFormatValue: (v) {
+            return v < 10 ? '0$v' : '$v';
+          }
+        ),
+        NumberPickerColumn(
+          initValue: currTime.seconds,
+          begin: 0, 
+          end: 59,
+          onFormatValue: (v) {
+            return v < 10 ? '0$v' : '$v';
+          }
+        ),
+      ]),
+      delimiter: [
+        PickerDelimiter(child: Container(
+          width: 30.0,
+          alignment: Alignment.center,
+          child: Text(':',
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold
             ),
-          ))
-        ],
-        hideHeader: true,
-        title: new Text("Please Select"),
-        onConfirm: (Picker picker, List value) {
-          setter(value);
-        }
+          ),
+        ))
+      ],
+      hideHeader: true,
+      title: Text('Please Select'),
+      onConfirm: (Picker picker, List value) {
+        setter(value);
+      }
     ).showDialog(context);
   }
 }
@@ -399,14 +401,14 @@ class MinutesSeconds {
     this.seconds = seconds;
   }
   
-  MinutesSeconds.asList(List time) {
+  MinutesSeconds.asList(List<int> time) {
     this.minutes = time[0];
     this.seconds = time[1];
   }
 
   @override
   String toString() {
-    return "minutes: ${this.minutes}, seconds: ${this.seconds}";
+    return 'minutes: ${this.minutes}, seconds: ${this.seconds}';
   }
 
   String digits(int index, int pad) {
@@ -414,8 +416,8 @@ class MinutesSeconds {
   }
 
   String build() {
-    String minutes = this.digits(this.minutes, 2);
-    String seconds = this.digits(this.seconds, 2);
-    return "$minutes:$seconds";
+    var min = this.digits(this.minutes, 2);
+    var sec = this.digits(this.seconds, 2);
+    return '$min:$sec';
   }
 }

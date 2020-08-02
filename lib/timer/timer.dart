@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_timer/workout_setting.dart';
+// import 'package:workout_timer/workout_setting.dart';
 
 /*
   Class to handle the timer display and functionality
@@ -9,7 +9,7 @@ class Timer extends StatefulWidget {
 
   // This will be a map of the settings.
   // Should include sets, rounds, worktime and resttime data
-  final Map workout; 
+  final Map<String, dynamic> workout; 
   // It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -17,14 +17,14 @@ class Timer extends StatefulWidget {
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  // always marked 'final'.
   
   @override
-  _TimerState createState() => new _TimerState(this.workout);
+  _TimerState createState() => _TimerState(this.workout);
 }
 
 class _TimerState extends State<Timer> {
-  Map workout;
+  Map<String, dynamic> workout;
   int totalWorkTime = 0;
   int secondsOffset = 0;
   int minutesOffset = 0;
@@ -38,8 +38,8 @@ class _TimerState extends State<Timer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    seconds = this.workout["workTime"]["seconds"].toString();
-    minutes = this.workout["workTime"]["minutes"].toString();
+    seconds = this.workout['workTime']['seconds'].toString();
+    minutes = this.workout['workTime']['minutes'].toString();
   }
 
 
@@ -59,12 +59,12 @@ class _TimerState extends State<Timer> {
   }
 
   int _getTotalWorkTime() {
-    return (this.workout["workTime"]["minutes"] * 60) + this.workout["workTime"]["seconds"];
+    return ((this.workout['workTime']['minutes'] * 60) + this.workout['workTime']['seconds']) as int;
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Container(
@@ -72,7 +72,7 @@ class _TimerState extends State<Timer> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("${minutes.padLeft(2, '0')}:${seconds.padLeft(2, '0')}", 
+                Text('${minutes.padLeft(2, '0')}:${seconds.padLeft(2, '0')}', 
                   style: TextStyle(fontSize: 64),
                 )
               ],
@@ -80,7 +80,7 @@ class _TimerState extends State<Timer> {
           )
         )
       ),
-      bottomNavigationBar: new Container(
+      bottomNavigationBar: Container(
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,7 +92,7 @@ class _TimerState extends State<Timer> {
               height: 50.0,
               child: FlatButton(
                 color: Colors.black26,
-                child: Text("Back"),
+                child: Text('Back'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: () {
                   Navigator.pop(context);
@@ -110,7 +110,7 @@ class _TimerState extends State<Timer> {
                 textColor: Colors.white,
                 disabledColor: Colors.blue[100],
                 disabledTextColor: Colors.white,
-                child: Text("Start"),
+                child: Text('Start'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: null
               )

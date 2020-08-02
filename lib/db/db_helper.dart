@@ -1,8 +1,8 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:workout_timer/db/models/workouts.dart';
+// import 'package:workout_timer/db/models/workouts.dart';
 import 'package:path/path.dart';
-import "dart:async";
-import "dart:io";
+import 'dart:async';
+import 'dart:io';
 
 /// DbHelper
 /// Will be used to do CRUD operations on the database so we aren't manipulating the database directly
@@ -57,11 +57,11 @@ class DbHelper {
     return db;
   }
 
-  _onConfigure(Database db) async {
+  void _onConfigure(Database db) async {
     null;
   }
 
-  _onCreate(Database db, int version) async {
+  void _onCreate(Database db, int version) async {
     // temporary
     await db.execute('DROP TABLE $tableWorkout');
     
@@ -69,13 +69,13 @@ class DbHelper {
       'CREATE TABLE $tableWorkout ($colId INTEGER PRIMARY KEY, $colSets INTEGER, $colRounds INTEGER, $colWorkTime INTEGER, $colRestTime INTEGER, $colDisplay TEXT, $colType INTEGER)');
     
     // preload data from files
-    await db.insert(tableWorkout, {colSets: 1, colRounds: 1, colWorkTime: 10, colRestTime: 10, colDisplay: "test display", colType: 0});
+    await db.insert(tableWorkout, {colSets: 1, colRounds: 1, colWorkTime: 10, colRestTime: 10, colDisplay: 'test display', colType: 0});
   }
 
   Future<List> getWorkoutById(int id) async {
-    Database db = await getDb();
+    var db = await getDb();
 
-    var row = db.query(tableWorkout, where: "$colId = ?", whereArgs: [id]);
+    var row = db.query(tableWorkout, where: '$colId = ?', whereArgs: [id]);
     return row;
   }
 

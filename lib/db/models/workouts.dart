@@ -19,30 +19,30 @@ class Workout {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
-    map["sets"] = _sets;
-    map["rounds"] = _rounds;
-    map["workTime"] = _workTime;
-    map["restTime"] = _restTime;
-    map["display"] = _display;
-    map["type"] = _type;
-    map["restBetweenSets"] = _restBetweenSets;
-    map["alternatingSets"] = _alternatingSets;
+    map['sets'] = _sets;
+    map['rounds'] = _rounds;
+    map['workTime'] = _workTime;
+    map['restTime'] = _restTime;
+    map['display'] = _display;
+    map['type'] = _type;
+    map['restBetweenSets'] = _restBetweenSets;
+    map['alternatingSets'] = _alternatingSets;
 
     if (_id != null) {
-      map["id"] = _id;
+      map['id'] = _id;
     }
     return map;
   }
 
   Workout.fromMap(Map<String, dynamic> map) {
-    _id = map["id"];
-    _sets = map["sets"];
-    _rounds = map["rounds"];
-    _workTime = map["workTime"];
-    _restTime = map["restTime"];
-    _display = map["display"];
-    _type = map["type"];
-    _restBetweenSets = map["restBetweenSets"];
-    _alternatingSets = map["alternatingSets"];
+    _id = map['id'] as int;
+    _sets = map['sets'] as int;
+    _rounds = map['rounds'] as int;
+    _workTime = map['workTime'] as int;
+    _restTime = map['restTime'] as int;
+    _display = map['display'].toString();
+    _type = map['type'] as int;
+    _restBetweenSets = map['restBetweenSets'] as int;
+    _alternatingSets = map['alternatingSets'] as bool;
   }
 }

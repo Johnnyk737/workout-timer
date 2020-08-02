@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // This is the theme of your application.
         //
-        // Try running your application with "flutter run". You'll see the
+        // Try running your application with 'flutter run'. You'll see the
         // application has a blue toolbar. Then, without quitting the app, try
         // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // 'hot reload' (press 'r' in the console where you ran 'flutter run',
+        // or simply save your changes to 'hot reload' in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
@@ -48,7 +48,7 @@ class MyHomePage extends StatefulWidget {
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  // always marked 'final'.
 
   final String title;
 
@@ -57,9 +57,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  List<Map> _prevWorkouts = [];
-  List<Map> _presets = [];
+  // List<Map> _prevWorkouts = [];
+  List<Map<String, dynamic>> _presets = [];
 
   // DbHelper db = DbHelper();
   // var dbFuture = db.initializeDb();
@@ -67,40 +66,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    loadTestData();
+    // loadTestData();
     loadPresets();
 
   }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-      
-    });
-  }
-
   Future loadPresets() async {
-    String presetsJson = await rootBundle.loadString('assets/presets.json');
+    var presetsJson = await rootBundle.loadString('assets/presets.json');
 
-    print("Setting presets");
+    print('Setting presets');
     setState(() {
-      _presets = List<Map>.from(jsonDecode(presetsJson) as List);
+      _presets = List<Map<String, dynamic>>.from(jsonDecode(presetsJson) as List);
     });
   }
 
-  Future loadTestData() async {
-    String dataJson = await rootBundle.loadString('assets/previous_workouts.json');
+  // Future loadTestData() async {
+  //   var dataJson = await rootBundle.loadString('assets/previous_workouts.json');
 
-    print("Setting prev workouts");
-    setState(() {
-      _prevWorkouts = List<Map>.from(jsonDecode(dataJson) as List);
-    });
-  }
+  //   print('Setting prev workouts');
+  //   setState(() {
+  //     _prevWorkouts = List<Map>.from(jsonDecode(dataJson) as List);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -125,9 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
             // arranges them vertically. By default, it sizes itself to fit its
             // children horizontally, and tries to be as tall as its parent.
             //
-            // Invoke "debug painting" (press "p" in the console, choose the
-            // "Toggle Debug Paint" action from the Flutter Inspector in Android
-            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+            // Invoke 'debug painting' (press 'p' in the console, choose the
+            // 'Toggle Debug Paint' action from the Flutter Inspector in Android
+            // Studio, or the 'Toggle Debug Paint' command in Visual Studio Code)
             // to see the wireframe for each widget.
             //
             // Column has various properties to control how it sizes itself and
@@ -172,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       // splashColor: Colors.yellow,f
                       // highlightElevation: 1,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                      child: Text("New Workout"),
+                      child: Text('New Workout'),
                       onPressed: () => {
                         Navigator.push(
                         context,
@@ -196,8 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(3),
                         side: BorderSide(color: Colors.black38, width: 1.0)
                         ),
-                      child: Text("Previous Workouts"),
-                      onPressed: () => print("Previous Workout Button pressed")
+                      child: Text('Previous Workouts'),
+                      onPressed: () => print('Previous Workout Button pressed')
                     )
                   )
                 ]
@@ -209,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 20.0, top: 20.0),
-                        child: Text("Preset Workouts", 
+                        child: Text('Preset Workouts', 
                           style: TextStyle(fontSize: 24.0),
                         ),
                       ),
@@ -232,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // Public: Returns a Container of previous workouts
   // Widget buildPreviousWorkouts(List prevWorkouts) {
   //   return null;
-  //   // String pre = '[{"sets":[{"rounds":3,"seconds":30,"restBetweenRounds":10},{"rounds":3,"seconds":30,"restBetweenRounds":10},{"rounds":3,"seconds":30,"restBetweenRounds":10}],"restBetweenSets":30,"alternatingSets":false},{"sets":[{"rounds":3,"seconds":40,"restBetweenRounds":10},{"rounds":3,"seconds":40,"restBetweenRounds":10}],"restBetweenSets":30,"alternatingSets":false},{"sets":[{"rounds":3,"seconds":30,"restBetweenRounds":10},{"rounds":3,"seconds":40,"restBetweenRounds":10},{"rounds":3,"seconds":50,"restBetweenRounds":10},{"rounds":3,"seconds":40,"restBetweenRounds":10},{"rounds":3,"seconds":30,"restBetweenRounds":10}],"restBetweenSets":30,"alternatingSets":true},{"sets":[{"rounds":5,"seconds":30,"restBetweenRounds":10},{"rounds":5,"seconds":40,"restBetweenRounds":10},{"rounds":5,"seconds":30,"restBetweenRounds":10}],"restBetweenSets":30,"alternatingSets":true}]';
+  //   // String pre = '[{'sets':[{'rounds':3,'seconds':30,'restBetweenRounds':10},{'rounds':3,'seconds':30,'restBetweenRounds':10},{'rounds':3,'seconds':30,'restBetweenRounds':10}],'restBetweenSets':30,'alternatingSets':false},{'sets':[{'rounds':3,'seconds':40,'restBetweenRounds':10},{'rounds':3,'seconds':40,'restBetweenRounds':10}],'restBetweenSets':30,'alternatingSets':false},{'sets':[{'rounds':3,'seconds':30,'restBetweenRounds':10},{'rounds':3,'seconds':40,'restBetweenRounds':10},{'rounds':3,'seconds':50,'restBetweenRounds':10},{'rounds':3,'seconds':40,'restBetweenRounds':10},{'rounds':3,'seconds':30,'restBetweenRounds':10}],'restBetweenSets':30,'alternatingSets':true},{'sets':[{'rounds':5,'seconds':30,'restBetweenRounds':10},{'rounds':5,'seconds':40,'restBetweenRounds':10},{'rounds':5,'seconds':30,'restBetweenRounds':10}],'restBetweenSets':30,'alternatingSets':true}]';
   // }
   
   // Public: Returns a Container of presets
@@ -241,23 +229,23 @@ class _MyHomePageState extends State<MyHomePage> {
   // ex. 
   //    2 sets, 3 rounds (30/30)
   //    5 sets, 3 rounds (30/40/40/30/20)
-  Widget buildPresets(presets) {
+  Widget buildPresets(List<Map<String, dynamic>> presets) {
     // print(presets);
     return Column(
       mainAxisSize: MainAxisSize.max,
-      children: presets.map<Widget>((data)=>
+      children: presets.map<Widget>((Map<String, dynamic> data)=>
       // I would like to have the container and divider return for each loop of the map
       // so it looks like Column(container, divider, container, divider, etc)
-      new Column(
+      Column(
         children: <Widget>[
           Container(
             child: GestureDetector(
               child: Padding(
                 padding: EdgeInsets.all(10.0),
-                child: Text(data["display"])
+                child: Text(data['display'].toString())
               ),
               onTap: () => {
-                    print("Tapped ${data['display']}"),
+                    print('Tapped ${data['display'].toString()}'),
                     // print(context),
                     // print(data),
                     Navigator.push(
