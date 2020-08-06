@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:workout_timer/workout_setting.dart';
 
 /*
   Class to handle the timer display and functionality
@@ -10,14 +9,6 @@ class Timer extends StatefulWidget {
   // This will be a map of the settings.
   // Should include sets, rounds, worktime and resttime data
   final Map<String, dynamic> workout; 
-  // It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked 'final'.
   
   @override
   _TimerState createState() => _TimerState(this.workout);
@@ -38,8 +29,9 @@ class _TimerState extends State<Timer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    seconds = this.workout['workTime']['seconds'].toString();
-    minutes = this.workout['workTime']['minutes'].toString();
+    seconds = this.workout['workTime'].seconds.toString();
+    minutes = this.workout['workTime'].minutes.toString();
+    totalWorkTime = this.workout['workTime'].getTotalSeconds() as int;
   }
 
 
@@ -47,7 +39,7 @@ class _TimerState extends State<Timer> {
     // TODO: Need to make sure that the start button isn't pressed more than once
     // or make it so that if the start button is pressed after it's running, don't
     // run another time since this function is async.
-    for (var i = _getTotalWorkTime(); i >= 0; i--) {
+    for (var i = this.totalWorkTime; i >= 0; i--) {
       // need to wait 1 second before continuing
       secondsOffset = totalWorkTime % 60;
       setState(() {
@@ -56,10 +48,6 @@ class _TimerState extends State<Timer> {
       });
       await Future.delayed(Duration(seconds: 1));
     }
-  }
-
-  int _getTotalWorkTime() {
-    return ((this.workout['workTime']['minutes'] * 60) + this.workout['workTime']['seconds']) as int;
   }
 
   @override
@@ -86,7 +74,6 @@ class _TimerState extends State<Timer> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
-              // flex: 2,
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
@@ -100,8 +87,6 @@ class _TimerState extends State<Timer> {
               )
             ),
             Container(
-              // flex: 2, 
-              // padding: EdgeInsets.all(10.0),
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
