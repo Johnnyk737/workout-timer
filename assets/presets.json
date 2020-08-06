@@ -4,8 +4,8 @@
     "rounds": 3,
     "workTime": 30,
     "restTime": 10,
-    "restBetweenSets": 30,
     "display": "3 sets, 3 rounds",
+    "restBetweenSets": 30,
     "alternatingSets": false
   },
   {

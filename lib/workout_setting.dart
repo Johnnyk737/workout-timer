@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:workout_timer/timer/timer.dart';
+import 'db/db_helper.dart';
+import 'db/models/workouts.dart';
 
 class WorkoutSetting extends StatefulWidget {
   WorkoutSetting({Key key, context, this.workout});
@@ -19,6 +21,8 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
   MinutesSeconds workTime;
   MinutesSeconds restTime;
   Map<String, dynamic> workout;
+
+  DbHelper db = DbHelper.instance;
 
   @override
   void initState() {
@@ -94,6 +98,19 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     return false;
   }
 
+  void saveWorkout() async {
+    var display = '${this.sets} ${this.sets > 1 ? 'sets' : 'set'}, ${this.rounds} ${this.rounds > 1 ? 'rounds' : 'round'}';
+    var workout = Workout(sets: this.sets,
+                          rounds: this.rounds,
+                          workTime: this.workTime.getTotalSeconds(),
+                          restTime: this.restTime.getTotalSeconds(),
+                          display: display,
+                          type: 1
+                          );
+
+    await db.insertWorkout(workout);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -122,7 +139,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
             Column(
               children: <Widget>[
                 Container(
-                  // color: Colors.yellowAccent,
                   child: Text('Sets',
                     style: TextStyle(
                       fontSize: 20.0
@@ -135,7 +151,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                     Column(
                       children: <Widget>[
                         Container(
-                          // color: Colors.yellow,
                           height: 75.0,
                           width: 75.0,
                           child: GestureDetector(
@@ -143,17 +158,13 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: 'Subtract Set',
                               size: 48.0,),
                             onTap: () {
-                              // print('tapped subtract set');
                               _subtractSet();
-                              // print(sets);
                             },
                           )
                         ),
                       ]
                     ),
                     Container(
-                      // height: 100.0,
-                      // width: 350.0,
                       child: Text(sets.toString(),
                         style: TextStyle(
                           fontSize: 46.0
@@ -163,7 +174,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                     Column(
                       children: <Widget>[
                         Container(
-                          // color: Colors.yellow,
                           height: 75.0,
                           width: 75.0,
                           child: GestureDetector(
@@ -171,9 +181,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: 'Add Set',
                               size: 48.0,),
                             onTap: () {
-                              // print('tapped add set');
                               _addSet();
-                              // print(sets);
                             },
                           )
                         ),
@@ -186,7 +194,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
             Column( // rounds
               children: <Widget>[
                 Container(
-                  // color: Colors.yellowAccent,
                   padding: EdgeInsets.only(top: 10.0),
                   child: Text('Rounds',
                     style: TextStyle(
@@ -200,7 +207,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                     Column(
                       children: <Widget>[
                         Container(
-                          // color: Colors.yellow,
                           height: 75.0,
                           width: 75.0,
                           child: GestureDetector(
@@ -208,23 +214,17 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: 'Subtract Round',
                               size: 48.0,),
                             onTap: () {
-                              // print('tapped subtract round');
                               _subtractRound();
-                              // print(rounds);
                             },
                           )
                         ),
                       ]
                     ),
                     Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Container(
-                          // color: Colors.cyan,
                           height: 75.0,
-                          // width: 250.0,
                           alignment: Alignment(0.0, 0.0),
                           child: Text(rounds.toString(),
                             style: TextStyle(
@@ -237,7 +237,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                     Column(
                       children: <Widget>[
                         Container(
-                          // color: Colors.yellow,
                           height: 75.0,
                           width: 75.0,
                           child: GestureDetector(
@@ -245,9 +244,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                               semanticLabel: 'Add Round',
                               size: 48.0,),
                             onTap: () {
-                              // print('tapped add round');
                               _addRound();
-                              // print(rounds);
                             },
                           )
                         ),
@@ -309,7 +306,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
-              // flex: 2,
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
@@ -323,8 +319,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               )
             ),
             Container(
-              // flex: 2, 
-              // padding: EdgeInsets.all(10.0),
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
@@ -335,8 +329,12 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 disabledTextColor: Colors.white,
                 child: Text('Start'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                onPressed: _areSettingsValid() ? () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Timer(context: context, workout: _buildSettingsObj()))) : null
+                onPressed: _areSettingsValid() ? () {
+                  saveWorkout();
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Timer(context: context, workout: _buildSettingsObj())
+                    ));
+                  } : null
               )
             )
           ],
@@ -413,6 +411,10 @@ class MinutesSeconds {
 
   String digits(int index, int pad) {
     return '$index'.padLeft(pad, '0');
+  }
+
+  int getTotalSeconds() {
+    return (this.minutes * 60) + this.seconds;
   }
 
   String build() {
