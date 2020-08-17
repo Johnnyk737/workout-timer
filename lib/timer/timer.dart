@@ -92,7 +92,7 @@ class _TimerState extends State<Timer> {
               height: 50.0,
               child: FlatButton(
                 color: Colors.blueAccent,
-                textColor: Colors.white,
+                textColor: Colors.yellow,
                 disabledColor: Colors.blue[100],
                 disabledTextColor: Colors.white,
                 child: Text('Start'),
