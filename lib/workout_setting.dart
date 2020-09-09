@@ -332,7 +332,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 onPressed: _areSettingsValid() ? () {
                   saveWorkout();
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Timer(context: context, workout: _buildSettingsObj())
+                    MaterialPageRoute(builder: (context) => TimerPage(context: context, workout: _buildSettingsObj())
                     ));
                   } : null
               )
