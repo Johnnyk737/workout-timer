@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:workout_timer/timer/timer.dart';
-import 'db/db_helper.dart';
-import 'db/models/workouts.dart';
+import 'package:workout_timer/pages/timer/timer.dart';
+import '../db/db_helper.dart';
+import '../db/models/workouts.dart';
 
 class WorkoutSetting extends StatefulWidget {
   WorkoutSetting({Key key, context, this.workout});
