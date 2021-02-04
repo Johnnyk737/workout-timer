@@ -72,15 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home')
+            label: 'Home'
             ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            title: Text('Previous Workouts')
+            label: 'Previous Workouts'
             ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            title: Text('Settings')
+            label: 'Settings'
           ),
         ],
         currentIndex: _bottomNavIndex,
