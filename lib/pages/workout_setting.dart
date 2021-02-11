@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:workout_timer/pages/timer/timer.dart';
+import 'package:workout_timer/pages/timer/workout_timer.dart';
 import '../db/db_helper.dart';
 import '../db/models/workouts.dart';
 
@@ -27,8 +27,8 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
   @override
   void initState() {
     super.initState();
-    sets = (workout != null ? workout['sets'] : 0) as int;
-    rounds = (workout != null ? workout['rounds'] : 0) as int;
+    sets = (workout != null ? workout['sets'] : 1) as int;
+    rounds = (workout != null ? workout['rounds'] : 1) as int;
     workTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout['workTime'] as int)) : MinutesSeconds();
     restTime = workout != null ? MinutesSeconds.asList(_getMinutesSeconds(workout['restTime'] as int)) : MinutesSeconds();
   }
@@ -332,7 +332,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 onPressed: _areSettingsValid() ? () {
                   saveWorkout();
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Timer(context: context, workout: _buildSettingsObj())
+                    MaterialPageRoute(builder: (context) => WorkoutTimer(context: context, workout: _buildSettingsObj())
                     ));
                   } : null
               )
