@@ -73,11 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home'
-            ),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'Previous Workouts'
-            ),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings'

@@ -1,8 +1,9 @@
 Functionality
-TODO: Build set work time and rest time
-TODO: Build round feature (# of work/rest time)
-TODO: Build sets feature (# of rounds)
-TODO: Make start and stop and reset buttons functional
+DONE: Build set work time and rest time
+DONE: Build round feature (# of work/rest time)
+DONE: Build sets feature (# of rounds)
+DONE: Make start and stop and reset buttons functional
+TODO: Add extra time between sets?
 TODO: Create app storage for caching app data, previous workouts, etc. // https://pub.dev/packages/floor
 TODO: Have previously used time sets (Previous Workouts)
 TODO: Add sounds for events (Time done, round done, 3 seconds left in work time, 3 seconds left in rest time, etc.)
