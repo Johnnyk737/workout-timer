@@ -389,10 +389,7 @@ class MinutesSeconds {
   int minutes;
   int seconds;
 
-  MinutesSeconds() {
-    this.minutes = 0;
-    this.seconds = 0;
-  }
+  MinutesSeconds() : this.withTime(0, 0);
 
   MinutesSeconds.withTime(int minutes, int seconds) {
     this.minutes = minutes;

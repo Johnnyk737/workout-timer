@@ -28,9 +28,6 @@ enum Activity {
 
 class _WorkoutTimerState extends State<WorkoutTimer> {
   Map<String, dynamic> workout;
-  int secondsOffset = 0;
-  int minutesOffset = 0;
-  int countDown = 00;
   int _sets;
   int _rounds;
   int _totalTime = 0;
@@ -38,7 +35,6 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   int _workTime;
   Timer _timer;
   bool _isButtonEnabled = true;
-  bool _isWorking;
   Activity activityState;
 
   _WorkoutTimerState(this.workout);
@@ -64,28 +60,34 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
         _totalTime = this._workTime;
       });
     } else if (activityState == Activity.WORKOUT) {
-      print('switching activity to rest');
       setState(() {
         _timer = null;
         this._rounds--;
-        if (this._sets == 0 && this._rounds == 0) {
+        if (this._sets == 1 && this._rounds == 0) {
+          print('Workout done');
           activityState = Activity.DONE;
         } else if (this._rounds == 0 && this._sets > 0) {
+          print('switching activity to rest');
           this._sets--;
           this._rounds = this.workout['rounds'] as int;
           activityState = Activity.REST;
           _totalTime = this._restTime;
         } else {
+          print('switching activity to rest');
           activityState = Activity.REST;
           _totalTime = this._restTime;
         }
       });
     }
+    if (activityState == Activity.DONE) return;
     startTimer();
   }
 
   void startTimer() async {
     // Disable the start button on click because there is a delay between button press and _timer.isActive
+    setState(() {
+      _isButtonEnabled = false;
+    });
     print('Timer started');
 
     _timer = Timer.periodic(
@@ -121,7 +123,8 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
       _totalTime = this._workTime;
       _sets = this.workout['sets'] as int;
       _rounds = this.workout['rounds'] as int;
-      // _isButtonEnabled = true;
+      activityState = Activity.WORKOUT;
+      _isButtonEnabled = true;
         
       if (_timer != null) {
         _timer.cancel();
@@ -210,14 +213,14 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
       width: 175.0,
       height: 50.0,
       child: FlatButton(
-        
+      
         color: Colors.blueAccent,
         textColor: Colors.white,
         disabledColor: Colors.blue[100],
         disabledTextColor: Colors.white,
         child: Text('Start'),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-        onPressed: () => _isButtonEnabled ? startTimer() : null
+        onPressed: _isButtonEnabled ? () => startTimer() : null
       )
     );
   }
