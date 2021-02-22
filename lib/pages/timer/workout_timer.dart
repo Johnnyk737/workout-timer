@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async' ;
 import 'package:flutter/foundation.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 /*
   Class to handle the timer display and functionality
@@ -36,6 +37,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   Timer _timer;
   bool _isButtonEnabled = true;
   Activity activityState;
+  Future<void> _flutterRingtonePlayer;
 
   _WorkoutTimerState(this.workout);
 
@@ -48,10 +50,22 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     _workTime = this.workout['workTime'].getTotalSeconds() as int;
     activityState = Activity.WORKOUT;
     _totalTime = 5;
+    FlutterRingtonePlayer.stop();
+  }
+
+  void playRingtone() async {
+    await FlutterRingtonePlayer.play(
+      android: AndroidSounds.ringtone,
+      ios: IosSounds.chime,
+      looping: false,
+      volume: 0.5,
+      asAlarm: true
+    );
   }
   
   /// switches between rest and work, decrements set and rounds, and starts timer
   void switchActivity() {
+    FlutterRingtonePlayer.stop();
     if (activityState == Activity.REST) {
       print('switching activity to workout');
       setState(() {
@@ -104,6 +118,9 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
           setState(() {
             _totalTime--;
           });
+          if (_totalTime <= 3) {
+            playRingtone();
+          }
         }
       });
   }
@@ -117,6 +134,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     });
   }
 
+  /// Restarts timer to base workout settings
   void restartTimer() async {
     print('Timer restarted');
     setState(() {
@@ -133,6 +151,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     });
   }
 
+  /// Formats the display for the minutes and seconds
   String getDisplay() {
     var min = (_totalTime / 60).floor();
     var sec = (_totalTime % 60);
@@ -162,7 +181,6 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
                   ],
                 ),
                 Column(
-                  
                   children: [
                     Center(
                       child: Text(this.activityState != null ? describeEnum(this.activityState) : 'WORKOUT',
@@ -194,13 +212,9 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
                 child: Text('Restart'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: () => restartTimer(),
-                // onPressed: () {
-                //   Navigator.pop(context);
-                // }
               )
             ),
-            _timer != null ?
-              stopButton() : startButton(),
+            _timer != null ? stopButton() : startButton(),
           ],
         ),
       )
@@ -213,7 +227,6 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
       width: 175.0,
       height: 50.0,
       child: FlatButton(
-      
         color: Colors.blueAccent,
         textColor: Colors.white,
         disabledColor: Colors.blue[100],
