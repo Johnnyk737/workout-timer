@@ -47,7 +47,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     _restTime = this.workout['restTime'].getTotalSeconds() as int;
     _workTime = this.workout['workTime'].getTotalSeconds() as int;
     activityState = Activity.WORKOUT;
-    _totalTime = 5;
+    _totalTime = _workTime;
   }
   
   /// switches between rest and work, decrements set and rounds, and starts timer

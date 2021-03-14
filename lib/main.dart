@@ -86,11 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _bottomNavIndex,
         
         onTap: (index) => {
-          this.setState(() {
-            _bottomNavIndex = index;
-          }),
-          // pageController.jumpToPage(index)
-          pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease)
+          // this.setState(() {
+          //   _bottomNavIndex = index;
+          // }),
+          // pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease)
+          
+          // Turning this off for now
+          null
         }
       ),
     );

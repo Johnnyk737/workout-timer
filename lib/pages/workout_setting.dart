@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:workout_timer/pages/timer/workout_timer.dart';
-import '../db/db_helper.dart';
-import '../db/models/workouts.dart';
 
 class WorkoutSetting extends StatefulWidget {
   WorkoutSetting({Key key, context, this.workout});
@@ -21,8 +19,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
   MinutesSeconds workTime;
   MinutesSeconds restTime;
   Map<String, dynamic> workout;
-
-  DbHelper db = DbHelper.instance;
 
   @override
   void initState() {
@@ -98,18 +94,19 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     return false;
   }
 
-  void saveWorkout() async {
-    var display = '${this.sets} ${this.sets > 1 ? 'sets' : 'set'}, ${this.rounds} ${this.rounds > 1 ? 'rounds' : 'round'}';
-    var workout = Workout(sets: this.sets,
-                          rounds: this.rounds,
-                          workTime: this.workTime.getTotalSeconds(),
-                          restTime: this.restTime.getTotalSeconds(),
-                          display: display,
-                          type: 1
-                          );
+  // TODO: Add object based db
+  // void saveWorkout() async {
+  //   var display = '${this.sets} ${this.sets > 1 ? 'sets' : 'set'}, ${this.rounds} ${this.rounds > 1 ? 'rounds' : 'round'}';
+  //   var workout = Workout(sets: this.sets,
+  //                         rounds: this.rounds,
+  //                         workTime: this.workTime.getTotalSeconds(),
+  //                         restTime: this.restTime.getTotalSeconds(),
+  //                         display: display,
+  //                         type: 1
+  //                         );
 
-    await db.insertWorkout(workout);
-  }
+  //   await db.insertWorkout(workout);
+  // }
 
   @override
   void dispose() {
@@ -330,7 +327,7 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
                 child: Text('Start'),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: _areSettingsValid() ? () {
-                  saveWorkout();
+                  // saveWorkout();
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => WorkoutTimer(context: context, workout: _buildSettingsObj())
                     ));
