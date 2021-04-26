@@ -115,7 +115,24 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var startButtonEnabled = TextButton.styleFrom(
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.white
+      ),
+      backgroundColor: Colors.blueAccent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
+    var startButtonDisabled = TextButton.styleFrom(
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.white
+      ),
+      backgroundColor: Colors.blue[100],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -306,10 +323,12 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
-              child: FlatButton(
-                color: Colors.black26,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                ),
                 child: Text('Back'),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: () {
                   Navigator.pop(context);
                 }, 
@@ -319,13 +338,13 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
-              child: FlatButton(
-                color: Colors.blueAccent,
-                textColor: Colors.white,
-                disabledColor: Colors.blue[100],
-                disabledTextColor: Colors.white,
-                child: Text('Start'),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+              child: TextButton(
+                style: _areSettingsValid() ? startButtonEnabled : startButtonDisabled,
+                child: Text('Start',
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
+                ),
                 onPressed: _areSettingsValid() ? () {
                   // saveWorkout();
                   Navigator.push(context,

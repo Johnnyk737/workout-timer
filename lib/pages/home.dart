@@ -69,6 +69,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                         child: Text(this.title, 
                           style: TextStyle(
                             fontSize: 48.0,
+                            color: Colors.black
                           ),
                         ),
                       )
@@ -83,13 +84,22 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                     padding: EdgeInsets.all(5.0),
                     width: 200.0,
                     height: 50.0,
-                    child: FlatButton(
+                    child: TextButton(
                       key: navigateToWorkoutSettingButtonKey,
-                      color: Colors.blueAccent,
-                      textColor: Colors.black,
+                      style: TextButton.styleFrom(
+                        primary: Colors.black,
+                        textStyle: TextStyle(
+                          color: Colors.black
+                        ),
+                        backgroundColor: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                      ),
                       // highlightElevation: 1,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                      child: Text('New Workout'),
+                      child: Text('New Workout',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                        )
+                      ),
                       onPressed: () => {
                         Navigator.push(
                         context,
@@ -108,14 +118,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       width: 200.0,
                       height: 50.0,
                       padding: EdgeInsets.all(5.0),
-                      child: FlatButton(
+                      child: TextButton(
                         key: navigateToPreviousWorkoutsButtonKey,
-                        color: Colors.black12,
-                        textColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3),
-                          side: BorderSide(color: Colors.black38, width: 1.0)
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.black12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            side: BorderSide(color: Colors.black38, width: 1.0)
                           ),
+                          textStyle: TextStyle(
+                            color: Colors.black
+                          ),
+                        ),
                         child: Text('Previous Workouts'),
                         onPressed: null
                       )
@@ -135,7 +149,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                         ),
                       ),
                       Container(
-                        child: buildPresets(_presets)
+                        child: buildPresets(_presets, context)
                       )
                     ],
                   )
@@ -153,7 +167,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   // ex. 
   //    2 sets, 3 rounds (30/30)
   //    5 sets, 3 rounds (30/40/40/30/20)
-  Widget buildPresets(List<Workouts> presets) {
+  Widget buildPresets(List<Workouts> presets, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: presets.map<Widget>((Workouts data)=>
