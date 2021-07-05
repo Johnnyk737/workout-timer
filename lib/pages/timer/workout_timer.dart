@@ -113,6 +113,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     print('Timer paused');
     _timer.cancel();
     _timer = null;
+    _isButtonEnabled = true;
     setState(() {
     });
   }
