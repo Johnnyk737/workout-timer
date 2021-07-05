@@ -44,3 +44,6 @@ app.*.map.json
 
 # coverage reports
 /coverage/
+
+# key.properties
+android/key.properties

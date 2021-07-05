@@ -15,3 +15,5 @@ Layout
 TODO: Build landing page
 TODO: Build Set Workout Time (accessible from landing page)
 TODO: Allow customization of digit color
+
+Say what round you are on, besides just total rounds.
