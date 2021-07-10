@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:workout_timer/pages/timer/workout_timer.dart';
-import '../db/db_helper.dart';
-import '../db/models/workouts.dart';
 
 class WorkoutSetting extends StatefulWidget {
   WorkoutSetting({Key key, context, this.workout});
@@ -21,8 +19,6 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
   MinutesSeconds workTime;
   MinutesSeconds restTime;
   Map<String, dynamic> workout;
-
-  DbHelper db = DbHelper.instance;
 
   @override
   void initState() {
@@ -98,18 +94,19 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
     return false;
   }
 
-  void saveWorkout() async {
-    var display = '${this.sets} ${this.sets > 1 ? 'sets' : 'set'}, ${this.rounds} ${this.rounds > 1 ? 'rounds' : 'round'}';
-    var workout = Workout(sets: this.sets,
-                          rounds: this.rounds,
-                          workTime: this.workTime.getTotalSeconds(),
-                          restTime: this.restTime.getTotalSeconds(),
-                          display: display,
-                          type: 1
-                          );
+  // TODO: Add object based db
+  // void saveWorkout() async {
+  //   var display = '${this.sets} ${this.sets > 1 ? 'sets' : 'set'}, ${this.rounds} ${this.rounds > 1 ? 'rounds' : 'round'}';
+  //   var workout = Workout(sets: this.sets,
+  //                         rounds: this.rounds,
+  //                         workTime: this.workTime.getTotalSeconds(),
+  //                         restTime: this.restTime.getTotalSeconds(),
+  //                         display: display,
+  //                         type: 1
+  //                         );
 
-    await db.insertWorkout(workout);
-  }
+  //   await db.insertWorkout(workout);
+  // }
 
   @override
   void dispose() {
@@ -118,7 +115,24 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var startButtonEnabled = TextButton.styleFrom(
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.white
+      ),
+      backgroundColor: Colors.blueAccent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
+    var startButtonDisabled = TextButton.styleFrom(
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.white
+      ),
+      backgroundColor: Colors.blue[100],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -309,10 +323,12 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
-              child: FlatButton(
-                color: Colors.black26,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                ),
                 child: Text('Back'),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: () {
                   Navigator.pop(context);
                 }, 
@@ -322,15 +338,15 @@ class _WorkoutSettingState extends State<WorkoutSetting> {
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
-              child: FlatButton(
-                color: Colors.blueAccent,
-                textColor: Colors.white,
-                disabledColor: Colors.blue[100],
-                disabledTextColor: Colors.white,
-                child: Text('Start'),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+              child: TextButton(
+                style: _areSettingsValid() ? startButtonEnabled : startButtonDisabled,
+                child: Text('Start',
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
+                ),
                 onPressed: _areSettingsValid() ? () {
-                  saveWorkout();
+                  // saveWorkout();
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => WorkoutTimer(context: context, workout: _buildSettingsObj())
                     ));

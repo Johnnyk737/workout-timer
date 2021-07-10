@@ -47,7 +47,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     _restTime = this.workout['restTime'].getTotalSeconds() as int;
     _workTime = this.workout['workTime'].getTotalSeconds() as int;
     activityState = Activity.WORKOUT;
-    _totalTime = 5;
+    _totalTime = _workTime;
   }
   
   /// switches between rest and work, decrements set and rounds, and starts timer
@@ -113,6 +113,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     print('Timer paused');
     _timer.cancel();
     _timer = null;
+    _isButtonEnabled = true;
     setState(() {
     });
   }
@@ -162,7 +163,6 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
                   ],
                 ),
                 Column(
-                  
                   children: [
                     Center(
                       child: Text(this.activityState != null ? describeEnum(this.activityState) : 'WORKOUT',
@@ -189,10 +189,13 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
               margin: EdgeInsets.all(10.0),
               width: 175.0,
               height: 50.0,
-              child: FlatButton(
-                color: Colors.black26,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
+                  backgroundColor: Colors.black26,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                ),
                 child: Text('Restart'),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                 onPressed: () => restartTimer(),
                 // onPressed: () {
                 //   Navigator.pop(context);
@@ -208,35 +211,62 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   Widget startButton() {
+    var startButtonEnabled = TextButton.styleFrom(
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.white
+      ),
+      backgroundColor: Colors.blueAccent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
+    var startButtonDisabled = TextButton.styleFrom(
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.white
+      ),
+      backgroundColor: Colors.blue[100],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
     return Container(
       margin: EdgeInsets.all(10.0),
       width: 175.0,
       height: 50.0,
-      child: FlatButton(
-      
-        color: Colors.blueAccent,
-        textColor: Colors.white,
-        disabledColor: Colors.blue[100],
-        disabledTextColor: Colors.white,
+      child: TextButton(
+        style: _isButtonEnabled ? startButtonEnabled : startButtonDisabled,
         child: Text('Start'),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
         onPressed: _isButtonEnabled ? () => startTimer() : null
       )
     );
   }
 
   Widget stopButton() {
+
+    var stopButtonEnabled = TextButton.styleFrom(
+      primary: Colors.black,
+      textStyle: TextStyle(
+        color: Colors.black
+      ),
+      backgroundColor: Colors.redAccent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    );
+
+    // var stopButtonDisabled = TextButton.styleFrom(
+    //   primary: Colors.red[100],
+    //   textStyle: TextStyle(
+    //     color: Colors.black54
+    //   ),
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+    // );
+
     return Container(
       margin: EdgeInsets.all(10.0),
       width: 175.0,
       height: 50.0,
-      child: FlatButton(
-        color: Colors.redAccent,
-        textColor: Colors.black,
-        disabledColor: Colors.red[100],
-        disabledTextColor: Colors.black54,
+      child: TextButton(
+        style: stopButtonEnabled,
         child: Text('Stop'),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
         onPressed: () => this.stopTimer()
       )
     );
